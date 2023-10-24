@@ -1,4 +1,4 @@
-import { Maybe, Some, None, Option } from '../src/option'
+import { Maybe, Some, None, Option } from './option'
 
 export class OptionArray<T> extends Array<T> {
 
