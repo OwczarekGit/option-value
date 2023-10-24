@@ -66,7 +66,6 @@ export function Some<T>(val: T): Option<T>  {
     return Option.of<T>(val)
 }
 
-
 export function None<T>(): Option<T>  {
     return Option.empty<T>()
 }

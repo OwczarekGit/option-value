@@ -106,11 +106,6 @@
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
   },
-  "files": [
-    "./src/option.ts",
-    "./src/optionMap.ts",
-    "./src/optionArray.ts",
-  ],
   "include": [
     "src/**/*"
   ]
