@@ -1,9 +1,9 @@
 import { Maybe, Option } from "./option"
 
 export class OptionMap<K,V> extends Map<K,V> {
-    //@ts-ignore
+
+    /** @ts-expect-error */
     override get(key: K): Option<V> {
-        //@ts-ignore
         return Maybe(super.get(key))        
     }
 }
