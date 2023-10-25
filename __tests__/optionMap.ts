@@ -6,7 +6,7 @@ test('Calling get() that does NOT exist returns none.' , () => {
     names.set(2, "Bob")
     names.set(3, "Claire")
     
-    let name = names.get(222)
+    let name = names.maybeGet(222)
     
     expect(name.isNone()).toBe(true)
     expect(name.isSome()).toBe(false)
@@ -19,7 +19,7 @@ test('Calling get() that does exist returns some.' , () => {
     names.set(2, "Bob")
     names.set(3, "Claire")
     
-    let name = names.get(2)
+    let name = names.maybeGet(2)
     
     expect(name.isNone()).toBe(false)
     expect(name.isSome()).toBe(true)
