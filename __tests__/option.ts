@@ -126,3 +126,67 @@ test('Return null when called orNull() on none.', () => {
     let someValue: Option<number> = None()
     expect(someValue.orNull()).toBe(null)
 })
+
+test('Call action when calling ifEmpty() on none.', () => {
+    let someValue: string | null = null
+    
+    let wasCalled = false
+    let action = () => {
+        wasCalled = true
+    }
+    Maybe(someValue).ifEmpty(action)
+
+    expect(wasCalled).toBe(true)
+})
+
+test('Do not call action when calling ifEmpty() on some.', () => {
+    let someValue: string | null = "Hello"
+    
+    let wasCalled = false
+    let action = () => {
+        wasCalled = true
+    }
+    Maybe(someValue).ifEmpty(action)
+
+    expect(wasCalled).toBe(false)    
+})
+
+test('Call noneAction when calling ifPresentOrElse() on none.', () => {
+    let someValue: string | null = null
+    
+    let someCalled = false
+    let someAction = () => {
+        someCalled = true
+    }
+
+    let noneCalled = false
+    let noneAction = () => {
+        noneCalled = true
+    }
+
+
+    Maybe(someValue).ifPresentOrElse(someAction, noneAction)
+
+    expect(someCalled).toBe(false)    
+    expect(noneCalled).toBe(true)    
+})
+
+test('Call noneAction when calling ifPresentOrElse() on none.', () => {
+    let someValue: string | null = "Hello"
+    
+    let someCalled = false
+    let someAction = () => {
+        someCalled = true
+    }
+
+    let noneCalled = false
+    let noneAction = () => {
+        noneCalled = true
+    }
+
+
+    Maybe(someValue).ifPresentOrElse(someAction, noneAction)
+
+    expect(someCalled).toBe(true)    
+    expect(noneCalled).toBe(false)    
+})
