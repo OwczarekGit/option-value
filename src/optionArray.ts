@@ -2,42 +2,35 @@ import { Maybe, Some, None, Option } from './option'
 
 export class OptionArray<T> extends Array<T> {
 
-    /** @ts-expect-error */
-    override at(index: number): Option<T> {
-        return Maybe(super.at(index))
+    public maybeAt(index: number): Option<T> {
+        return Maybe(this.at(index))
     }
     
-    /** @ts-expect-error */
-    override pop(): Option<T> {
-        return Maybe(super.pop())
+    public maybePop(): Option<T> {
+        return Maybe(this.pop())
     }
     
-    /** @ts-expect-error */
-    override findIndex(predicate: (value: T, index: number, obj: T[]) => unknown, thisArg?: any): Option<number> {
-        let index: number = super.findIndex(predicate)
+    public maybeFindIndex(predicate: (value: T, index: number, obj: T[]) => unknown, thisArg?: any): Option<number> {
+        let index: number = this.findIndex(predicate)
         if (index === -1)
             return None()
         else
             return Some(index)
     }
     
-    // NOTE: There is more overrides for find().
-    /** @ts-expect-error */
-    override find(predicate: (value: T, index: number, obj: T[]) => unknown, thisArg?: any): Option<T> {
-        return Maybe(super.find(predicate))
+    public maybeFind(predicate: (value: T, index: number, obj: T[]) => unknown, thisArg?: any): Option<T> {
+        return Maybe(this.find(predicate))
     }
     
-    /** @ts-expect-error */
-    override indexOf(searchElement: T, fromIndex?: number | undefined): Option<number> {
-        let index: number = super.indexOf(searchElement, fromIndex)
+    public maybeIndexOf(searchElement: T, fromIndex?: number | undefined): Option<number> {
+        let index: number = this.indexOf(searchElement, fromIndex)
         if (index === -1)
             return None()
         else
             return Some(index)
     }
     
-    /** @ts-expect-error */
-    override shift(): Option<T> {
-        return Maybe(super.shift())
+    public maybeShift(): Option<T> {
+        return Maybe(this.shift())
     }
 }
