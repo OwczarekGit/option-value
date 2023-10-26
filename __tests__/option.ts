@@ -127,6 +127,16 @@ test('Return null when called orNull() on none.', () => {
     expect(someValue.orNull()).toBe(null)
 })
 
+test('Return value when called orUndefined() on some.', () => {
+    let someValue: Option<number> = Some(123)
+    expect(someValue.orUndefined()).toBe(123)
+})
+
+test('Return undefined when called orUndefined() on none.', () => {
+    let someValue: Option<number> = None()
+    expect(someValue.orUndefined()).toBe(undefined)
+})
+
 test('Call action when calling ifEmpty() on none.', () => {
     let someValue: string | null = null
     

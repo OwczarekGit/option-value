@@ -176,6 +176,30 @@ export class Option<T> {
         if (this.isSome()) return this.get()
         else return null
     }
+    
+    /**
+     * Converts Option\<T\> to T | undefined.
+     * 
+     * Use to easily interop with interfaces that don't use Option.
+     * 
+     * @example <caption>Returns value.</caption>
+     * function func(name: string | undefined) { ... }
+     * 
+     * let name: Option<string> = Some("John")
+     * assert(name.orUndefined() == "John")
+     * func(name.orUndefined())
+     *
+     * @example <caption>Returns undefined.</caption>
+     * function func(name: string | undefined) { ... }
+     * 
+     * let name: Option<string> = None()
+     * assert(name.orUndefined() == undefined)
+     * func(name.orUndefined())
+     */
+    public orUndefined(): T | undefined {
+        if (this.isSome()) return this.get()
+        else return undefined
+    }
 
     /**
      * Returns true if the internal value is null, false otherwise.
