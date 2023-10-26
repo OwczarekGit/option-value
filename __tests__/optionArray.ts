@@ -19,10 +19,12 @@ test('When called at() on valid index return some.', () => {
 test('Calling pop() on valid value returns some.' , () => {
     let arr = new OptionArray<number>()
     arr.push(1)
+    arr.push(2)
+    arr.push(3)
     let item = arr.maybePop()
     expect(item.isNone()).toBe(false)
     expect(item.isSome()).toBe(true)
-    expect(item.get()).toBe(1)
+    expect(item.get()).toBe(3)
 })
 
 test('Calling pop() on null value returns none.' , () => {

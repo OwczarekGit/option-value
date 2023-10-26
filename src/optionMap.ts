@@ -3,7 +3,7 @@ import { Maybe, Option } from "./option"
 /**
  * Drop in replacement for Map\<K\,V>.
  * 
- * Provides additional methods that return Option\<V\> instead of nulls.
+ * Provides additional methods that return Option\<V\> instead of null or undefined.
  */
 export class OptionMap<K,V> extends Map<K,V> {
 
