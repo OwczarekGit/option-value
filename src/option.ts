@@ -104,6 +104,30 @@ export class Option<T> {
     }
     
     /**
+     * Provides a way to get alternative value without breaking a chain.
+     * 
+     * @example <caption>Set the value to `Tom` if was none.</caption>
+     * let maybeName = Some('John')
+     * let name = maybeName
+     *     .orElseGet(() => Some('Tom'))
+     *     .get()
+     * assert(name == 'John')
+     * 
+     * @example
+     * let maybeName = None()
+     * let name = maybeName
+     *     .orElseGet(() => Some('Tom'))
+     *     .get()
+     * assert(name == 'Tom')
+     */
+    public orElseGet(noneAction: () => Option<T>):  Option<T> {
+        if (this.isNone())
+            return noneAction()
+        else
+            return this
+    }
+    
+    /**
      * Calls action when inner value is NOT null.
      * 
      * @example <caption>Calls action.</caption>

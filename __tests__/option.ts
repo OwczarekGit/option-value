@@ -200,3 +200,43 @@ test('Call noneAction when calling ifPresentOrElse() on none.', () => {
     expect(someCalled).toBe(true)    
     expect(noneCalled).toBe(false)    
 })
+
+test('Do not call noneAction() when the values is some.', () => {
+    let maybeName: Option<string> = Some('John')
+    let actionCalled = false
+    let noneAction = (): Option<string> => {
+        actionCalled = true
+        return None()
+    }
+    let name = maybeName.orElseGet(noneAction)
+    expect(actionCalled).toBe(false)
+    expect(name.isSome()).toBe(true)
+    expect(name.get()).toBe("John")
+})
+
+test('Call noneAction() when the values is none. Option is none.', () => {
+    let maybeName: Option<string> = None()
+    let actionCalled = false
+    let noneAction = (): Option<string> => {
+        actionCalled = true
+        return None()
+    }
+    let name = maybeName.orElseGet(noneAction)
+    expect(actionCalled).toBe(true)
+    expect(name.isSome()).toBe(false)
+    expect(() => name.get()).toThrow()
+})
+
+test('Call noneAction() when the values is none. Option is now some.', () => {
+    let maybeName: Option<string> = None()
+    let actionCalled = false
+    let noneAction = (): Option<string> => {
+        actionCalled = true
+        return Some("Tom")
+    }
+    let name = maybeName.orElseGet(noneAction)
+    expect(actionCalled).toBe(true)
+    expect(name.isSome()).toBe(true)
+    expect(name.get()).toBe("Tom")
+    expect(() => name.get()).not.toThrow()
+})
