@@ -284,3 +284,21 @@ export function Maybe<T>(val: T | null | undefined): Option<T>  {
 export function None<T>(): Option<T>  {
     return Option.empty<T>()
 }
+
+/**
+ * Creates Option\<T\> from provided resolver function,
+ * 
+ * Executes provided resolver function, resolver function
+ * allows to execute code "atomically" by calling get() on any Option.
+ * If any of get() calls would result in None, entire function returns None.
+ * 
+ * This can be usefull if you have many Option to handle and if either of them is
+ * None you want to "short circuit".
+ */
+export function Context<T>(resolver: () => Option<T>): Option<T> {
+    try {
+        return resolver()
+    } catch (_) {
+        return None()
+    }
+}

@@ -1,4 +1,4 @@
-import { Maybe, None, Option, Some } from "../src/option"
+import { Context, Maybe, None, Option, Some } from "../src/option"
 
 test('Option created using Maybe() on null is always created.', () => {
     let maybeName: string | null = null
@@ -239,4 +239,38 @@ test('Call noneAction() when the values is none. Option is now some.', () => {
     expect(name.isSome()).toBe(true)
     expect(name.get()).toBe("Tom")
     expect(() => name.get()).not.toThrow()
+})
+
+test('Context resolved to Some when get() does not throw.', () => {
+    interface Person {
+        name: string,
+        age: number
+    }
+
+    let name = Maybe("Tom")
+    let age = Maybe(45)
+    
+    let person: Option<Person> = Context(() => {
+        return Some({name: name.get(), age: age.get()})
+    })
+    
+    expect(person.isSome()).toBe(true)
+    expect(person.get().name).toBe("Tom")
+    expect(person.get().age).toBe(45)
+})
+
+test('Context resolved to None when get() throws.', () => {
+    interface Person {
+        name: string,
+        age: number
+    }
+
+    let name = Maybe("Tom")
+    let age: Option<number> = None()
+    
+    let person: Option<Person> = Context(() => {
+        return Some({name: name.get(), age: age.get()})
+    })
+    
+    expect(person.isSome()).toBe(false)
 })
