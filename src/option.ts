@@ -1,8 +1,8 @@
 /**
  * Wrapper class used as an alternative way of handling nullable value.
- * 
+ *
  * Eposes methods for functional handling of inner value.
- * 
+ *
  * Use Some(), Maybe() or None() to instantiate.
  */
 export class Option<T> {
@@ -11,10 +11,10 @@ export class Option<T> {
      */
     private value: T | undefined | null
     private constructor() {}
-    
+
     /**
      * Instantiates Option\<T\>, for internal use only.
-     * 
+     *
      * @deprecated Use Some(), Maybe() or None() to instantiate Option\<T\>.
      */
     public static of<T>(v: T | null | undefined): Option<T> {
@@ -27,10 +27,10 @@ export class Option<T> {
             return o
         }
     }
-    
+
     /**
      * Instantiates Option\<T\> as empty, for internal use only.
-     * 
+     *
      * @deprecated Use None() to instantiate Option\<T\> as empty.
      */
     public static empty<T>(): Option<T> {
@@ -39,9 +39,9 @@ export class Option<T> {
 
     /**
      * Return the internal value.
-     * 
+     *
      * @throws Error when internal value was null or undefined.
-     * 
+     *
      * @param msg Custom message explaining why calling get() is safe.
      * @example <caption>Returns inner value.</caption>
      * let name: Option<string> = Some("John")
@@ -61,12 +61,12 @@ export class Option<T> {
 
     /**
      * Returns internal value, or fallback when it was null.
-     * 
-     * @example <caption>Returns inner value.</caption> 
+     *
+     * @example <caption>Returns inner value.</caption>
      * let name: Option<string> = Some("John")
      * assert(name.or("Karen") == "John")
      *
-     * @example <caption>Returns fallback value.</caption> 
+     * @example <caption>Returns fallback value.</caption>
      * let name: Option<string> = None()
      * assert(name.or("Karen") == "Karen")
      */
@@ -77,21 +77,21 @@ export class Option<T> {
             return fallback
         }
     }
-    
+
     /**
      * Converts Option\<T\> to Option\<Y\>.
-     * 
-     * @example <caption>Returns string from internal person value.</caption> 
+     *
+     * @example <caption>Returns string from internal person value.</caption>
      * let person: Option<Person> = Some({name: "John", age: 34})
      * let name: Option<string> = person.map(v => v.name)
      * assert(name.get() == "John")
      *
-     * @example <caption>Converts to matching type for function declaration.</caption> 
+     * @example <caption>Converts to matching type for function declaration.</caption>
      * function func(): Option<string> {
      *      let person: Option<Person> = Some({name: "John", age: 34})
      *      return person.map(v => v.name)
      * }
-     * 
+     *
      * let name: Option<string> = func()
      * assert(name.get() == "John")
      */
@@ -102,17 +102,17 @@ export class Option<T> {
             return Option.empty()
         }
     }
-    
+
     /**
      * Provides a way to get alternative value without breaking a chain.
-     * 
+     *
      * @example <caption>Set the value to `Tom` if was none.</caption>
      * let maybeName = Some('John')
      * let name = maybeName
      *     .orElseGet(() => Some('Tom'))
      *     .get()
      * assert(name == 'John')
-     * 
+     *
      * @example
      * let maybeName = None()
      * let name = maybeName
@@ -126,10 +126,10 @@ export class Option<T> {
         else
             return this
     }
-    
+
     /**
      * Calls action when inner value is NOT null.
-     * 
+     *
      * @example <caption>Calls action.</caption>
      * let name: Option<string> = Some("John")
      * name.ifPresent(n => console.log(`Hello my name is ${n}.`))
@@ -144,10 +144,10 @@ export class Option<T> {
     public ifPresent(action: (v: T) => void) {
         if (this.isSome()) action(this.get());
     }
-    
+
     /**
      * Calls action when inner value is null.
-     * 
+     *
      * @example <caption>Calls action.</caption>
      * let name: Option<string> = None()
      * name.ifEmpty(() => console.log(`My name is not set.`))
@@ -165,9 +165,9 @@ export class Option<T> {
 
     /**
      * Combination of ifPresent() and ifEmpty().
-     * 
+     *
      * Calls someAction when inner value is NOT null, calls noneAction otherwise.
-     * 
+     *
      * Use if you want to act depending on presence of the inner value.
      */
     public ifPresentOrElse(someAction: (v: T) => void, noneAction: () => void) {
@@ -179,19 +179,19 @@ export class Option<T> {
 
     /**
      * Converts Option\<T\> to T | null.
-     * 
+     *
      * Use to easily interop with interfaces that don't use Option.
-     * 
+     *
      * @example <caption>Returns value.</caption>
      * function func(name: string | null) { ... }
-     * 
+     *
      * let name: Option<string> = Some("John")
      * assert(name.orNull() == "John")
      * func(name.orNull())
      *
      * @example <caption>Returns null.</caption>
      * function func(name: string | null) { ... }
-     * 
+     *
      * let name: Option<string> = None()
      * assert(name.orNull() == null)
      * func(name.orNull())
@@ -200,22 +200,22 @@ export class Option<T> {
         if (this.isSome()) return this.get()
         else return null
     }
-    
+
     /**
      * Converts Option\<T\> to T | undefined.
-     * 
+     *
      * Use to easily interop with interfaces that don't use Option.
-     * 
+     *
      * @example <caption>Returns value.</caption>
      * function func(name: string | undefined) { ... }
-     * 
+     *
      * let name: Option<string> = Some("John")
      * assert(name.orUndefined() == "John")
      * func(name.orUndefined())
      *
      * @example <caption>Returns undefined.</caption>
      * function func(name: string | undefined) { ... }
-     * 
+     *
      * let name: Option<string> = None()
      * assert(name.orUndefined() == undefined)
      * func(name.orUndefined())
@@ -251,24 +251,22 @@ export class Option<T> {
  * @example <caption>Creates Option\<string\> from string "John".</caption>
  * let optionName: Option<string> = Some("John")
  */
-export function Some<T>(val: T): Option<T>  {
-    if (val == undefined || val == null)
-        throw new Error(`Cannot create Option from null/undefined by using Some(). Use None() instead.`)
+export function Some<T>(val: NonNullable<T>): Option<T>  {
     return Option.of<T>(val)
 }
 
 /**
  * Creates Option\<T\> from nullable value.
- * 
+ *
  * Signifies that the caller isn't certain if the value is null.
- * 
+ *
  * Should be used when creating Option when it can be null.
  * @example <caption>Creates Option\<string\> from string | null.</caption>
  * let name: string | null = null
  * let optionName: Option<string> = Maybe(name)
  */
 export function Maybe<T>(val: T | null | undefined): Option<T>  {
-    if (val == undefined || val == null) 
+    if (val == undefined || val == null)
         return None()
     else
         return Some(val)
@@ -276,7 +274,7 @@ export function Maybe<T>(val: T | null | undefined): Option<T>  {
 
 /**
  * Creates empty Option\<T\>.
- * 
+ *
  * Usefull when creating an Option\<T\> that is initially empty.
  * @example <caption>Creates Option\<string\> with empty value.</caption>
  * let name: Option<string> = None()
@@ -287,11 +285,11 @@ export function None<T>(): Option<T>  {
 
 /**
  * Creates Option\<T\> from provided resolver function,
- * 
+ *
  * Executes provided resolver function, resolver function
  * allows to execute code "atomically" by calling get() on any Option.
  * If any of get() calls would result in None, entire function returns None.
- * 
+ *
  * This can be usefull if you have many Option to handle and if either of them is
  * None you want to "short circuit".
  */

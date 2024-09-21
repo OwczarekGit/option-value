@@ -14,11 +14,6 @@ test('Option created using Maybe() on value is always created.', () => {
     expect(Maybe(maybeName).get()).toBe("John")
 })
 
-test('Throw error when calling Some() with null / udefined.', () => {
-    expect(() => Some(null)).toThrow()
-    expect(() => Some(undefined)).toThrow()
-})
-
 test('Do not throw when calling Some() with value.', () => {
     expect(() => Some("Hello")).not.toThrow()
 })
@@ -73,7 +68,7 @@ test('Mapper function is called when Option is some.', () => {
         wasCalled = true
         return value * 2
     }
-    
+
     someValue.map(mapper)
 
     expect(wasCalled).toBe(true)
@@ -87,7 +82,7 @@ test('Mapper function is NOT called when Option is none.', () => {
         wasCalled = true
         return value * 2
     }
-    
+
     someValue.map(mapper)
 
     expect(wasCalled).toBe(false)
@@ -139,7 +134,7 @@ test('Return undefined when called orUndefined() on none.', () => {
 
 test('Call action when calling ifEmpty() on none.', () => {
     let someValue: string | null = null
-    
+
     let wasCalled = false
     let action = () => {
         wasCalled = true
@@ -151,19 +146,19 @@ test('Call action when calling ifEmpty() on none.', () => {
 
 test('Do not call action when calling ifEmpty() on some.', () => {
     let someValue: string | null = "Hello"
-    
+
     let wasCalled = false
     let action = () => {
         wasCalled = true
     }
     Maybe(someValue).ifEmpty(action)
 
-    expect(wasCalled).toBe(false)    
+    expect(wasCalled).toBe(false)
 })
 
 test('Call noneAction when calling ifPresentOrElse() on none.', () => {
     let someValue: string | null = null
-    
+
     let someCalled = false
     let someAction = () => {
         someCalled = true
@@ -177,13 +172,13 @@ test('Call noneAction when calling ifPresentOrElse() on none.', () => {
 
     Maybe(someValue).ifPresentOrElse(someAction, noneAction)
 
-    expect(someCalled).toBe(false)    
-    expect(noneCalled).toBe(true)    
+    expect(someCalled).toBe(false)
+    expect(noneCalled).toBe(true)
 })
 
 test('Call noneAction when calling ifPresentOrElse() on none.', () => {
     let someValue: string | null = "Hello"
-    
+
     let someCalled = false
     let someAction = () => {
         someCalled = true
@@ -197,8 +192,8 @@ test('Call noneAction when calling ifPresentOrElse() on none.', () => {
 
     Maybe(someValue).ifPresentOrElse(someAction, noneAction)
 
-    expect(someCalled).toBe(true)    
-    expect(noneCalled).toBe(false)    
+    expect(someCalled).toBe(true)
+    expect(noneCalled).toBe(false)
 })
 
 test('Do not call noneAction() when the values is some.', () => {
@@ -249,11 +244,11 @@ test('Context resolved to Some when get() does not throw.', () => {
 
     let name = Maybe("Tom")
     let age = Maybe(45)
-    
+
     let person: Option<Person> = Context(() => {
         return Some({name: name.get(), age: age.get()})
     })
-    
+
     expect(person.isSome()).toBe(true)
     expect(person.get().name).toBe("Tom")
     expect(person.get().age).toBe(45)
@@ -267,10 +262,10 @@ test('Context resolved to None when get() throws.', () => {
 
     let name = Maybe("Tom")
     let age: Option<number> = None()
-    
+
     let person: Option<Person> = Context(() => {
         return Some({name: name.get(), age: age.get()})
     })
-    
+
     expect(person.isSome()).toBe(false)
 })
