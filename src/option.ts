@@ -104,6 +104,25 @@ export class Option<T> {
   }
 
   /**
+  * Checks if value matches provided predicate when it is present.
+  * Returns false if value is None.
+  *
+  * @example <caption>Returns false when value was None.</caption>
+  * let value: Option<string> = None()
+  * assert(value.and(v => v.len > 0) == false)
+  *
+  * @example <caption>Returns true when value was Some and matched predicate.</caption>
+  * let value: Option<string> = Some("Bob")
+  * assert(value.and(v => v.len > 0) == true)
+  */
+  public and(predicate: (v: T) => boolean): boolean {
+    if (this.isSome())
+      return predicate(this.get())
+    else
+      return false
+  }
+
+  /**
    * Provides a way to get alternative value without breaking a chain.
    *
    * @example <caption>Set the value to `Tom` if was none.</caption>

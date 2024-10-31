@@ -269,3 +269,67 @@ test('Context resolved to None when get() throws.', () => {
 
   expect(person.isSome()).toBe(false)
 })
+
+test('And function is NOT called when Option is none.', () => {
+  let someValue: Option<number> = None()
+
+  let wasCalled = false
+  let and = (value: number): boolean => {
+    wasCalled = true
+    return value > 0
+  }
+
+  someValue.and(and)
+
+  expect(wasCalled).toBe(false)
+})
+
+test('And function is called when Option is some.', () => {
+  let someValue: Option<number> = Some(1)
+
+  let wasCalled = false
+  let and = (value: number): boolean => {
+    wasCalled = true
+    return value > 0
+  }
+
+  someValue.and(and)
+
+  expect(wasCalled).toBe(true)
+})
+
+test('And returns true when value is Some and matches predicate.', () => {
+  let someValue: Option<number> = Some(1)
+
+  let wasCalled = false
+  let and = (value: number): boolean => {
+    wasCalled = true
+    return value == 1
+  }
+
+  expect(someValue.and(and)).toBe(true)
+})
+
+test('And returns false when value is Some and does NOT match predicate.', () => {
+  let someValue: Option<number> = Some(1)
+
+  let wasCalled = false
+  let and = (value: number): boolean => {
+    wasCalled = true
+    return value == 23
+  }
+
+  expect(someValue.and(and)).toBe(false)
+})
+
+test('And returns false when value is None.', () => {
+  let someValue: Option<number> = None()
+
+  let wasCalled = false
+  let and = (value: number): boolean => {
+    wasCalled = true
+    return value == 23
+  }
+
+  expect(someValue.and(and)).toBe(false)
+})
