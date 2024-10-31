@@ -17,7 +17,7 @@ export class OptionArray<T> extends Array<T> {
   * assert(arr.maybeAt(2).isSome() == true)
   * assert(arr.maybeAt(2).get() == 3)
   */
-  public static fromArray<T>(array: T[]) {
+  public static fromArray<T>(array: T[]): OptionArray<T> {
     const me = new OptionArray<T>()
     array.forEach(item => me.push(item))
     return me
