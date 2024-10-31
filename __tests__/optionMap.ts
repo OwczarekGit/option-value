@@ -46,3 +46,27 @@ test('Calling getOrAdd() when key does NOT exist returns alternative.', () => {
 
   expect(numbers.getOrAdd('d', 4)).toBe(4)
 })
+
+test('Calling fromMap has the same size as original map.', () => {
+  let map = new Map()
+  map.set(1, 'one')
+  map.set(2, 'two')
+  map.set(3, 'three')
+
+  let optMap = OptionMap.fromMap(map)
+
+  expect(optMap.size).toBe(3)
+})
+
+test('Calling fromMap has the same items as original map.', () => {
+  let map = new Map()
+  map.set(1, 'one')
+  map.set(2, 'two')
+  map.set(3, 'three')
+
+  let optMap = OptionMap.fromMap(map)
+
+  expect(optMap.maybeGet(1).get()).toBe('one')
+  expect(optMap.maybeGet(2).get()).toBe('two')
+  expect(optMap.maybeGet(3).get()).toBe('three')
+})

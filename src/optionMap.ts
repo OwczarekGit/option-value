@@ -8,6 +8,26 @@ import { Maybe, Option, Some } from "./option"
 export class OptionMap<K, V> extends Map<K, V> {
 
   /**
+   * Creates OptionMap\<T\> from passed in standard array.
+   * Returns array with the same order, and length.
+   * @example <caption>Convert map of number → string to map of of optional number → string.</caption>
+   * let map = new Map()
+   * map.set(0, 'zero')
+   * map.set(1, 'one')
+   * map.set(2, 'two')
+
+   * let optMap = OptionMap.fromMap(map)
+   * assert(arr.size == 3)
+   * assert(arr.maybeGet(0).get() == 'zero')
+   * assert(arr.maybeGet(1).get() == 'one')
+   * assert(arr.maybeGet(2).get() == 'two')
+   */
+  public static fromMap<K, V>(map: Map<K, V>): OptionMap<K, V> {
+    const me = new OptionMap<K, V>()
+    map.forEach((value, key) => me.set(key, value))
+    return me
+  }
+  /**
    * Returns Option\<V\>,
    * wraps get() returning the result as an Option instad of null.
    *
