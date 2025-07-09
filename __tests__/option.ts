@@ -333,3 +333,15 @@ test('And returns false when value is None.', () => {
 
   expect(someValue.and(and)).toBe(false)
 })
+
+test('string "undefined" is considered None.', () => {
+  let value: Option<string> = Some('undefined')
+
+  expect(value.isSome()).toBe(true)
+})
+
+test('string "null" is considered None.', () => {
+  let value: Option<string> = Some('null')
+
+  expect(value.isSome()).toBe(true)
+})

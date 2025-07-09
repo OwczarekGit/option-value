@@ -16,7 +16,7 @@ Maybe(func()).ifPresent(process)
 
 // Instead of
 let maybeString: string | null = func()
-if (maybeString != null) {
+if (maybeString !== null) {
   process(maybeString)
 }
 ```

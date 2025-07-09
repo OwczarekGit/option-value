@@ -14,11 +14,9 @@ export class Option<T> {
 
   /**
    * Instantiates Option\<T\>, for internal use only.
-   *
-   * @deprecated Use Some(), Maybe() or None() to instantiate Option\<T\>.
    */
-  public static of<T>(v: T | null | undefined): Option<T> {
-    if (v == null || v == undefined) {
+  static of<T>(v: T | null | undefined): Option<T> {
+    if (v === null || v === undefined) {
       let o = new Option<T>()
       return o
     } else {
@@ -30,10 +28,8 @@ export class Option<T> {
 
   /**
    * Instantiates Option\<T\> as empty, for internal use only.
-   *
-   * @deprecated Use None() to instantiate Option\<T\> as empty.
    */
-  public static empty<T>(): Option<T> {
+  static empty<T>(): Option<T> {
     return new Option<T>
   }
 
@@ -52,7 +48,7 @@ export class Option<T> {
    * throws(name.get())
    */
   public get(msg?: string): T {
-    if (this.value != null) return this.value
+    if (this.isSome()) return this.value as T
     else {
       if (msg) throw new Error(msg)
       else throw new Error("Called `get()` on null value.")
@@ -71,8 +67,8 @@ export class Option<T> {
    * assert(name.or("Karen") == "Karen")
    */
   public or(fallback: T): T {
-    if (this.value != null) {
-      return this.value
+    if (this.isSome()) {
+      return this.value as T
     } else {
       return fallback
     }
@@ -248,7 +244,7 @@ export class Option<T> {
    * Returns true if the internal value is null, false otherwise.
    */
   public isNone(): boolean {
-    if (this.value == null || this.value == undefined) return true
+    if (this.value === null || this.value === undefined) return true
     else return false
   }
 
@@ -285,7 +281,7 @@ export function Some<T>(val: NonNullable<T>): Option<T> {
  * let optionName: Option<string> = Maybe(name)
  */
 export function Maybe<T>(val: T | null | undefined): Option<T> {
-  if (val == undefined || val == null)
+  if (val === undefined || val === null)
     return None()
   else
     return Some(val)
