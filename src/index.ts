@@ -1,3 +1,3 @@
-export { Option, Some, None, Maybe } from './option'
-export { OptionMap } from './optionMap'
-export { OptionArray } from './optionArray'
+export { Option, None, Some, Maybe } from './option';
+export { OptionMap } from './optionMap';
+export { OptionArray } from './optionArray';
