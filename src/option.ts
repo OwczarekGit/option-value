@@ -13,28 +13,6 @@ export class Option<T> {
     private value: T | undefined | null;
 
     /**
-    * Instantiates Option\<T\>, for internal use only.
-    */
-    static of<T>(v: T | null | undefined): Option<T> {
-        if (v === null || v === undefined) {
-            const o = new Option<T>();
-            return o;
-        } else {
-            const o = new Option<T>();
-            o.value = v;
-            return o;
-        }
-    }
-
-    /**
-    * Instantiates Option\<T\> as empty, for internal use only.
-    */
-    static empty<T>(): Option<T> {
-
-        return new Option<T>;
-    }
-
-    /**
     * Return the internal value.
     *
     * @throws Error when internal value was null or undefined.
@@ -98,9 +76,9 @@ export class Option<T> {
     */
     public map<Y>(actionWithValue: (v: T) => Y): Option<Y> {
         if (this.isSome()) {
-            return Option.of(actionWithValue(this.get()));
+            return Maybe(actionWithValue(this.get()));
         } else {
-            return Option.empty();
+            return None();
         }
     }
 
@@ -262,11 +240,7 @@ export class Option<T> {
     * Returns true if the internal value is null, false otherwise.
     */
     public isNone(): boolean {
-        if (this.value === null || this.value === undefined) {
-            return true;
-        } else {
-            return false;
-        }
+        return this.value === undefined || this.value === null;
     }
 
     /**
@@ -289,7 +263,16 @@ export class Option<T> {
 * let optionName: Option<string> = Some("John")
 */
 export function Some<T>(val: NonNullable<T>): Option<T> {
-    return Option.of<T>(val);
+    if (val === undefined || val === null) {
+        throw new Error(`Null value passed into Some() constructor. If this is a valid case - Maybe() constructor should be used insted, otherwise you probably have a bug. Please check for non null assertions.`);
+    }
+
+    const opt = new Option<T>();
+
+    // eslint-disable-next-line @typescript-eslint/dot-notation
+    opt[`value`] = val;
+
+    return opt;
 }
 
 /**
@@ -318,7 +301,7 @@ export function Maybe<T>(val: T | null | undefined): Option<T> {
 * let name: Option<string> = None()
 */
 export function None<T>(): Option<T> {
-    return Option.empty<T>();
+    return new Option<T>();
 }
 
 /**
