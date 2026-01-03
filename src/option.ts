@@ -30,11 +30,7 @@ export class Option<T> {
         if (this.isSome()) {
             return this.value as T;
         } else {
-            if (msg) {
-                throw new Error(msg);
-            } else {
-                throw new Error("Called `get()` on null value.");
-            }
+            throw new Error(msg ?? "Called `get()` on null value.");
         }
     }
 
@@ -249,7 +245,6 @@ export class Option<T> {
     public isSome(): boolean {
         return !this.isNone();
     }
-
 }
 
 /**
@@ -264,7 +259,7 @@ export class Option<T> {
 */
 export function Some<T>(val: NonNullable<T>): Option<T> {
     if (val === undefined || val === null) {
-        throw new Error(`Null value passed into Some() constructor. If this is a valid case - Maybe() constructor should be used insted, otherwise you probably have a bug. Please check for non null assertions.`);
+        throw new Error(`"{val}" passed into Some() constructor function. If this is a valid case - Maybe() should be used insted, otherwise you probably have a bug. Please verify non null assertions.`);
     }
 
     const opt = new Option<T>();
